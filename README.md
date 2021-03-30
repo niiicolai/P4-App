@@ -111,8 +111,8 @@ sound_modifier = SoundModifier(ORIGINAL_NAMES, MANIPULATED_NAMES)
 
 4. Graph current state of original sound file
 ```python
-x = self.sound_modifier.current_original_sound().get_time()
-y = self.sound_modifier.current_original_sound().get_data()
+x = sound_modifier.current_original_sound().get_time()
+y = sound_modifier.current_original_sound().get_data()
 plt.figure(1)
 plt.plot(x, y)
 plt.show()
@@ -120,8 +120,8 @@ plt.show()
 
 5. Graph current state of manipulated sound file
 ```python
-x = self.sound_modifier.current_manipulated_sound().get_time()
-y = self.sound_modifier.current_manipulated_sound().get_data()
+x = sound_modifier.current_manipulated_sound().get_time()
+y = sound_modifier.current_manipulated_sound().get_data()
 plt.figure(1)
 plt.plot(x, y)
 plt.show()
