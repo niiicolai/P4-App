@@ -1,0 +1,8 @@
+"""import socket
+s = socket.socket()
+host = socket.gethostname()
+port = 3000
+
+s.connect((host, port))
+Msg = "/amplitude 5;/frequency 250;"
+s.send(Msg.encode('utf-8'))"""
