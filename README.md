@@ -7,6 +7,7 @@ differences between the phase of the original and manipulated
 versions and output it to a csv file, 
 found under assets/csv/result.csv   
 
+![Example of application](https://github.com/niiicolai/P4-App/tree/main/assets/images/ExampleImage.JPG?raw=true)
 
 # gui.py
 The 4 steps below provide the general usage of this class
