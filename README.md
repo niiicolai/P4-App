@@ -16,7 +16,7 @@ MANIPULATED_NAMES = ["reverb_test.wav"]
 
 3. Create an Application object a list of file paths to original and manipulated names
 ```python
-app = Application(ORIGINAL_NAMES, MANIPULATED_NAMES, None)
+app = Application(ORIGINAL_NAMES, MANIPULATED_NAMES)
 ```
 
 4. Run the main loop to show the GUI

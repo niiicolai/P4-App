@@ -16,7 +16,7 @@ from soundModifier import SoundModifier
 
     3. Create an Application object a list of file paths to 
        original and manipulated names
-    app = Application(ORIGINAL_NAMES, MANIPULATED_NAMES, None)
+    app = Application(ORIGINAL_NAMES, MANIPULATED_NAMES)
 
     4. Run the main loop to show the GUI
     app.mainloop()
