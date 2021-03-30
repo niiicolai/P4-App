@@ -95,13 +95,13 @@ class SoundData:
         """Save the current state of the data to a file"""
         sounddevice.write(name, self.get_data(), self.__sample_rate)
 
-    def play(self):
+    def play(self, channel):
         """Delays the current play time by the phase shift in the
            positive direction or up to (__default_phase_shift) in the negative direction,
            and plays the current state of the data afterwards"""
         sleep_time = 0 if self.get_phase_shift() < 0 else self.get_phase_shift()
         time.sleep(sleep_time)
-        sounddevice.play(self.get_data(), self.__sample_rate)
+        sounddevice.play(self.get_data(), self.__sample_rate, mapping=[channel])
         return sounddevice.wait()
 
     def play_async(self):

@@ -1,6 +1,7 @@
 # Dependencies
 import threading
 import random
+import sounddevice
 from soundData import SoundData
 from csvWriter import CSVWriter, ORIGINAL_KEY, \
     MANIPULATED_KEY, AMPLITUDE_KEY, PHASE_SHIFT_KEY
@@ -132,20 +133,25 @@ class SoundModifier:
            to false, to stop the playing thread"""
         if self.__should_play:
             self.__should_play = False
+            sounddevice.stop();
         else:
             self.__should_play = True
             thread = threading.Thread(target=self.play_audio_files)
             thread.start()
 
     def play_audio_files(self):
-        """Play the 'current' sound files until should_play is false"""
+        """Play the 'current' sound files until should_play is false,
+           where the original sound is output on the left speaker,
+           and the manipulated is output on the right speaker"""
         run = True
         while run:
-            self.__original_sound_files[self.__current_sound_index].play()
-            if not self.__should_play:
-                run = False
-            else:
-                self.__manipulated_sound_files[self.__current_sound_index].play()
+            thread1 = threading.Thread(target=self.__original_sound_files[self.__current_sound_index].play, args=(1, ))
+            thread2 = threading.Thread(target=self.__manipulated_sound_files[self.__current_sound_index].play, args=(2, ))
+            thread1.start()
+            thread2.start()
+            thread1.join()
+            thread2.join()
+
             if not self.__should_play:
                 run = False
 

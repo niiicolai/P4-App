@@ -320,7 +320,7 @@ class Application(tk.Frame):
         """Plays the current original
            and manipulated sound"""
         self.sound_modifier.toggle_play()
-        if self.sound_modifier.get_should_play():
+        if not self.sound_modifier.get_should_play():
             self.play_button.config(text="Play", bg=DEFAULT_BTN_BGG, fg=DEFAULT_TXT_COLOR)
         else:
             self.play_button.config(text="Stop", bg=ACTIVE_BTN_BGG, fg=DEFAULT_BGG_COLOR)
