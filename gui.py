@@ -43,14 +43,15 @@ TITLE = "P4 Project"
 class Application(tk.Frame):
     """A class used to represent the main GUI features"""
 
-    def __init__(self, original_names, manipulated_names, master):
+    def __init__(self, original_names, manipulated_names, graph_audio=False):
         """The class constructor. Creates a
            sound modifier using the name paths"""
-        if master is None: master = tk.Tk()
+        master = tk.Tk()
         super().__init__(master)
 
         self.sound_modifier = SoundModifier(original_names, manipulated_names)
         self.master = master
+        self.graph_audio = graph_audio
         self.master.geometry(SIZE)
         self.master.resizable(False, False)
         self.master.title(TITLE)
@@ -124,7 +125,7 @@ class Application(tk.Frame):
 
         # create the label
         guidelines = "You can safely close the page now\n" \
-                     "by pressing the 'x' up in the right corner."
+                     "by pressing the x, up in the right corner."
         guidelines_label2 = tk.Label(self.master,
                                      text=guidelines,
                                      fg=DEFAULT_TXT_COLOR,
@@ -245,9 +246,21 @@ class Application(tk.Frame):
 
     # GRAPHING
 
+    def create_graph_placeholder(self):
+        text = "Help:\n\n1. Use the sliders to adjust\n amplitude and phase-shift\n\n" \
+               "2. Listen to the sounds simultaneously\n using the play button\n\n" \
+               "3. Press 'Next audio files' to confirm\n the audio is aligned\n\n" \
+               "4. Repeat the process until you think\n all audio files are aligned"
+        label = tk.Label(self.master, text=text, fg=DEFAULT_TXT_COLOR, font=TITLE_FONT)
+        label.place(x=240, y=130, width=270, height=250)
+
     def create_graph(self):
         """Adds the necessary widgets to show a graph
            of the current original and manipulated sounds"""
+        if not self.graph_audio:
+            self.create_graph_placeholder()
+            return
+
         f = Figure(figsize=(5, 5), dpi=40)
         self.ax = f.add_subplot(111)
         self.ax.set_ylabel('Amplitude [db]')
@@ -268,6 +281,8 @@ class Application(tk.Frame):
     def plot_current_files(self):
         """Updates the current state of the graph to match
            the current original and manipulated sounds"""
+        if not self.graph_audio: return
+
         # call the clear method on your axes
         self.ax.clear()
 
