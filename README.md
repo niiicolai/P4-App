@@ -1,4 +1,12 @@
 # P4-App
+An application designed to let a user align two versions 
+of the same audio file, while they can hear the two versions 
+divided into a left and right speaker. After aligning all of
+the available audio files, the application calculate the
+differences between the phase of the original and manipulated
+versions and output it to a csv file, 
+found under assets/csv/result.csv   
+
 
 # gui.py
 The 4 steps below provide the general usage of this class
@@ -80,14 +88,14 @@ manipulated_sound.set_amplitude(5) # +5
 original_sound.plot_against(manipulated_sound)
 ```
 
-6. Play the original sound
+6. Play the original sound using the left speaker
 ```python
-original_sound.play()
+original_sound.play(channel=1)
 ```
 
-7. Play the manipulated sound
+7. Play the manipulated sound using the right speaker
 ```python
-manipulated_sound.play()
+manipulated_sound.play(channel=2)
 ```
 
 # soundModifier.py

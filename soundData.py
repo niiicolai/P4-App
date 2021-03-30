@@ -27,11 +27,11 @@ import time
     5. Plot the sounds against each other
     original_sound.plot_against(manipulated_sound)
     
-    6. Play the original sound
-    original_sound.play()
+    6. Play the original sound using the left speaker
+    original_sound.play(channel=1)
     
-    7. Play the manipulated sound
-    manipulated_sound.play()
+    7. Play the manipulated sound using the right speaker
+    manipulated_sound.play(channel=2)
 """
 
 
