@@ -190,7 +190,7 @@ if sound_modifier.get_finished_sequence() > 0:
   print("ALL SOUND FILES HAS BEEN HEARD")
 ```
 
-# Test
+# Unit Test
 The project uses the `unittest` library to implement
 unit tests to test the application. All unit test 
 classes can be found in the `/Tests` directory.
