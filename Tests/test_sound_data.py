@@ -75,13 +75,14 @@ class TestSoundData(unittest.TestCase):
         The SoundData class contains also the following method.
         But it is concluded that the results of executing them
         easily can be validated either using the visual- or 
-        auditory system.
+        auditory system, or are simply not used in the main 
+        application but only exist for debugging purpose. 
                 
-        save()
-        play(channel=integer)
-        play_async(channel=integer)
-        plot()
-        plot_against(other=SoundData)
+        - save()
+        - play(channel=integer)
+        - play_async(channel=integer)
+        - plot()
+        - plot_against(other=SoundData)
     """
 
 
