@@ -9,6 +9,15 @@ found under assets/csv/result.csv
 
 ![Example of application](https://github.com/niiicolai/P4-App/blob/main/assets/images/ExampleImage.JPG?raw=true)
 
+# Table of contents
+* [Main](https://github.com/niiicolai/P4-App#mainpy)
+* [Configuration](https://github.com/niiicolai/P4-App#configpy)
+* [GUI](https://github.com/niiicolai/P4-App#guipy)
+* [CSV Writer](https://github.com/niiicolai/P4-App#csvwriterpy)
+* [Sound Data](https://github.com/niiicolai/P4-App#sounddatapy)
+* [Sound Modifier](https://github.com/niiicolai/P4-App#soundmodifierpy)
+* [Unit Test](https://github.com/niiicolai/P4-App#unit-test)
+
 # main.py
 Initialize the application by creating an instance of the Application object,
 using the parameters from `config.py`, and executing the `mainloop()` method.
