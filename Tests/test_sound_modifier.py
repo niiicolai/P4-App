@@ -95,6 +95,17 @@ class TestSoundModifier(unittest.TestCase):
         self.assertEqual(om, True, "Should be True")
         self.assertEqual(mm, True, "Should be True")
 
+    def test_set_phase_shift(self):
+        """Ensure set_phase_shift only changes
+           the amplitude of the 'manipulated'
+           version of the current sound"""
+        original_sound_data_copy = cp.copy(SOUND_MODIFIER.current_original_sound())
+        SOUND_MODIFIER.set_phase_shift(2)
+        om = (SOUND_MODIFIER.current_original_sound().get_time() == original_sound_data_copy.get_time()).all()
+        mm = (SOUND_MODIFIER.current_manipulated_sound().get_time() == RAW_TIME_SHIFTED_BY_2).all()
+        self.assertEqual(om, True, "Should be True")
+        self.assertEqual(mm, True, "Should be True")
+
     def test_append_current_result_data(self):
         """Ensure append_current_result_data
            appends a dictionary of the current
@@ -136,6 +147,7 @@ class TestSoundModifier(unittest.TestCase):
         - toggle_play()
         - get_results()
         - get_original_sound_files()
+        - get_manipulated_sound_files()
     """
 
 

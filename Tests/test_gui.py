@@ -4,28 +4,30 @@ import numpy as np
 import copy as cp
 from soundData import SoundData
 from soundModifier import SoundModifier
+from gui import Application
 
 
 # TEST DATA
 # The name of test wave file
-ORIGINAL_NAMES = ["./assets/sound/test.wav"]
-MANIPULATED_NAMES = ["./assets/sound/test.wav"]
+ORIGINAL_NAMES = ["./assets/sound/test.wav", "./assets/sound/test.wav"]
+MANIPULATED_NAMES = ["./assets/sound/test.wav", "./assets/sound/test.wav"]
 
-# Create a sound modifier object used for the tests
-SOUND_MODIFIER = SoundModifier(ORIGINAL_NAMES, MANIPULATED_NAMES)
+# Create an application object used for the tests
+APP = Application(ORIGINAL_NAMES, MANIPULATED_NAMES, False)
 
 # Load the wave file using an external library
 RAW_DATA, SAMPLE_RATE = sf.read(ORIGINAL_NAMES[0])
 # Calculate time data for the raw audio data
 RAW_TIME = np.linspace(0, len(RAW_DATA) / SAMPLE_RATE, num=len(RAW_DATA))
 # Create a sound data object used for the tests
-SOUND_DATA = SoundData(ORIGINAL_NAMES[0])
+ORIGINAL_SOUND_DATA = SoundData(ORIGINAL_NAMES[0])
+MANIPULATED_SOUND_DATA = SoundData(MANIPULATED_NAMES[0])
 # Get the default phase shift, used to comparing
-DEFAULT_PHASE_SHIFT = SOUND_DATA.get_default_phase_shift()
+DEFAULT_PHASE_SHIFT = ORIGINAL_SOUND_DATA.get_default_phase_shift()
 
 # Create a version of the raw data with double amplitude
 # and is shifted 1 in the amplitude domain
-RAW_DATA_DOUBLE_AMP_1_SHIFT = 2 * cp.copy(RAW_DATA) + 1
+RAW_DATA_DOUBLE_AMP_0_SHIFT = 2 * cp.copy(RAW_DATA) + 0
 
 # Create a version of the raw time that is shifted
 # by 2 in the phase shift domain + the default phase shift value
@@ -37,19 +39,15 @@ class TestApplication(unittest.TestCase):
 
     def test_set_amplitude(self):
         """Ensure set_amplitude"""
-        self.assertEqual(True, True, "Should be equal")
+        APP.set_amplitude(2)
+        manipulated_sound_files = APP.sound_modifier.get_manipulated_sound_files()
+        self.assertEqual((manipulated_sound_files[0].get_data() == RAW_DATA_DOUBLE_AMP_0_SHIFT).all(), True, "Should be True")
 
     def test_set_phase_shift(self):
         """Ensure set_phase_shift"""
-        self.assertEqual(True, True, "Should be equal")
-
-    def test_toggle_play(self):
-        """Ensure toggle_play"""
-        self.assertEqual(True, True, "Should be equal")
-
-    def test_next_audio_files(self):
-        """Ensure next_audio_files"""
-        self.assertEqual(True, True, "Should be equal")
+        APP.set_phase_shift(2)
+        manipulated_sound_files = APP.sound_modifier.get_manipulated_sound_files()
+        self.assertEqual((manipulated_sound_files[0].get_time() == RAW_TIME_SHIFTED_BY_2).all(), True, "Should be True")
 
     """
        OTHER METHODS:
@@ -70,6 +68,8 @@ class TestApplication(unittest.TestCase):
        - create_goodbye_widgets()
        - create_welcome_widgets()
        - clear_page()
+       - toggle_play()
+       - next_audio_files()
     """
 
 

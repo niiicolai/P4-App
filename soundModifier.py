@@ -119,6 +119,10 @@ class SoundModifier:
         """Returns the original_sound_files parameter"""
         return self.__original_sound_files
 
+    def get_manipulated_sound_files(self):
+        """Returns the manipulated_sound_files parameter"""
+        return self.__manipulated_sound_files
+
     def set_amplitude(self, amplitude):
         """Changes the amplitude of all
            manipulated sound files"""
