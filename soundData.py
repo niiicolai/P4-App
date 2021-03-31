@@ -72,6 +72,14 @@ class SoundData:
            and shifted by adding the amplitude-shift parameter"""
         return self.__data * self.__amplitude + self.__amplitude_shift
 
+    def get_default_phase_shift(self):
+        """Returns the default phase shift parameter"""
+        return self.__default_phase_shift
+
+    def get_amplitude_shift(self):
+        """Returns the amplitude shift parameter"""
+        return self.__amplitude_shift
+
     def get_amplitude(self):
         """Returns the amplitude parameter"""
         return self.__amplitude
@@ -104,9 +112,9 @@ class SoundData:
         sounddevice.play(self.get_data(), self.__sample_rate, mapping=[channel])
         return sounddevice.wait()
 
-    def play_async(self):
+    def play_async(self, channel):
         """Play the audio file in a separate thread"""
-        thread = threading.Thread(target=self.play)
+        thread = threading.Thread(target=self.play, args=(channel, ))
         thread.start()
 
     def plot(self, title="Plot of a single audio wave"):
