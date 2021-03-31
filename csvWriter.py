@@ -44,8 +44,9 @@ PHASE_SHIFT_KEY = "phase_shift"
 
 
 class CSVWriter:
-    """A class used to write the state of the sound files
-       after being manipulated through the sound control system"""
+    """A class used to write the state
+       of the sound files to a CSV file, after being
+       manipulated through the sound control system"""
 
     def __init__(self, data):
         """The class constructor."""

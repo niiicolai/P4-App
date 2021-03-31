@@ -9,8 +9,22 @@ found under assets/csv/result.csv
 
 ![Example of application](https://github.com/niiicolai/P4-App/blob/main/assets/images/ExampleImage.JPG?raw=true)
 
+# main.py
+Initialize the application by creating an instance of the Application object,
+using the parameters from `config.py`, and executing the `mainloop()` method.
+
+# config.py
+Contains configuration variables used to initialize the application. 
+
+* `GRAPH_AUDIO` set to true, to see a graph of the audio files (*For debugging*)
+* `FILE_PATH` specifies the directory for sound files
+* `ORIGINAL_NAMES` specifies the names of the original sound files
+* `MANIPULATED_NAMES` specifies the names of the manipulated sound files
+
 # gui.py
-The 4 steps below provide the general usage of this class
+Contains a class used to implement the main GUI features.
+
+**The 4 steps below provide the general usage of this class**
 
 1. import class
 ```python
@@ -34,7 +48,10 @@ app.mainloop()
 ```
 
 # csvWriter.py
-The 4 steps below provide the general usage of this class
+Contains a class used to write the state of the sound files to a
+CSV file, after being manipulated through the sound control system.
+
+**The 4 steps below provide the general usage of this class**
 
 1. import class
 ```python
@@ -60,7 +77,10 @@ writer.save()
 ```
 
 # soundData.py
-The 7 steps below provide the general usage of this class
+Contains a class used to easy manipulate an audio file,
+plot its graph, and listen to its output.
+
+**The 7 steps below provide the general usage of this class**
 
 1. import class
 ```python
@@ -100,11 +120,19 @@ manipulated_sound.play(channel=2)
 ```
 
 # soundModifier.py
-The 10 steps below provide the general usage of this class
+Contains a class used to change amplitude and current phase of
+a manipulated sound, to play the original and manipulated
+sounds sequential, and to save the state of the manipulation
+compared to the original sounds to a CSV file.
+
+**The 10 steps below provide the general usage of this class**
 
 1. import class
 ```python
 from soundModifier import SoundModifier
+# Note: import matplotlib to plot the graph
+    # in step 4 and 5
+    import matplotlib.pyplot as plt
 ```
 
 2. Create some test data

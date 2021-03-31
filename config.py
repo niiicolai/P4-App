@@ -1,3 +1,7 @@
+# THE WAVE GRAPH DISPLAY CAN BE
+# ACTIVATED FOR DEBUGGING PURPOSE
+GRAPH_AUDIO = False
+
 # Path to sound files
 FILE_PATH = "assets/sound/"
 

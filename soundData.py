@@ -36,7 +36,7 @@ import time
 
 
 class SoundData:
-    """A class used to easy manipulate a audio file,
+    """A class used to easy manipulate an audio file,
        plot its graph, and listen to its output"""
 
     def __init__(self, filename):

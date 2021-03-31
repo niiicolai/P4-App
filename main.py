@@ -1,10 +1,7 @@
 # Dependencies
-from config import ORIGINAL_NAMES, MANIPULATED_NAMES
+from config import ORIGINAL_NAMES, MANIPULATED_NAMES, GRAPH_AUDIO
 from gui import Application
 
-# THE WAVE GRAPH DISPLAY CAN BE
-# ACTIVATED FOR DEBUGGING PURPOSE
-GRAPH_AUDIO = False
 
 if __name__ == '__main__':
     # Create an application object

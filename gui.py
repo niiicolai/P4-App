@@ -41,7 +41,7 @@ TITLE = "P4 Project"
 
 
 class Application(tk.Frame):
-    """A class used to represent the main GUI features"""
+    """A class used to implement the main GUI features"""
 
     def __init__(self, original_names, manipulated_names, graph_audio=False):
         """The class constructor. Creates a
