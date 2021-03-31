@@ -131,8 +131,8 @@ compared to the original sounds to a CSV file.
 ```python
 from soundModifier import SoundModifier
 # Note: import matplotlib to plot the graph
-    # in step 4 and 5
-    import matplotlib.pyplot as plt
+# in step 4 and 5
+import matplotlib.pyplot as plt
 ```
 
 2. Create some test data
