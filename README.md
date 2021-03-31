@@ -191,7 +191,7 @@ if sound_modifier.get_finished_sequence() > 0:
 ```
 
 # Unit Test
-The project uses the `unittest` library to implement
+The project uses the [`unittest`](https://docs.python.org/3/library/unittest.html) library to implement
 unit tests to test the application. All unit test 
 classes can be found in the `/Tests` directory.
 
