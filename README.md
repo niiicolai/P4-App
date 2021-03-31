@@ -202,7 +202,7 @@ classes can be found in the `/Tests` directory.
 $ python -m nose2
 ```
 
-** Example log results:**
+**Example log results:**
 
 ```
 (venv) C:\Users\PCName\PycharmProjects\P4-App>python -m nose2
