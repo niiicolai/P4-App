@@ -197,7 +197,7 @@ classes can be found in the `/Tests` directory.
 
 **Procedure to validate all tests:**
 1. Open the terminal
-2. Run `nose2`
+2. Run [`nose2`](https://docs.nose2.io/en/latest/)
 ```
 $ python -m nose2
 ```
