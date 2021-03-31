@@ -5,6 +5,7 @@ import copy as cp
 from soundData import SoundData
 from soundModifier import SoundModifier
 
+
 # TEST DATA
 # The name of test wave file
 ORIGINAL_NAMES = ["./assets/sound/test.wav"]
@@ -31,34 +32,14 @@ RAW_DATA_DOUBLE_AMP_1_SHIFT = 2 * cp.copy(RAW_DATA) + 1
 RAW_TIME_SHIFTED_BY_2 = cp.copy(RAW_TIME) + (DEFAULT_PHASE_SHIFT + 2)
 
 
-class TestSoundModifier(unittest.TestCase):
-    """Used to test the class SoundModifier in soundModifier.py"""
-
-    def test_get_should_play(self):
-        """"""
-        self.assertEqual(True, True, "Should be equal")
-
-    def test_get_current_sound_index(self):
-        """"""
-        self.assertEqual(True, True, "Should be equal")
-
-    def test_get_number_of_sounds(self):
-        """"""
-        self.assertEqual(True, True, "Should be equal")
-
-    def test_current_original_sound(self):
-        """"""
-        self.assertEqual(True, True, "Should be equal")
-
-    def test_current_manipulated_sound(self):
-        """"""
-        self.assertEqual(True, True, "Should be equal")
-
-    def get_finished_sequence(self):
-        """"""
-        self.assertEqual(True, True, "Should be equal")
+class TestApplication(unittest.TestCase):
+    """Used to test the class Application in gui.py"""
 
     def test_set_amplitude(self):
+        """"""
+        self.assertEqual(True, True, "Should be equal")
+
+    def test_set_phase_shift(self):
         """"""
         self.assertEqual(True, True, "Should be equal")
 
@@ -71,14 +52,24 @@ class TestSoundModifier(unittest.TestCase):
         self.assertEqual(True, True, "Should be equal")
 
     """
-        OTHER METHODS:
-        The SoundModifier class contains also the following method.
-        But it is concluded that the results of executing them
-        easily can be validated either using the visual- or 
-        auditory system, or are simply not used in the main 
-        application but only exist for debugging purpose. 
+       OTHER METHODS:
+       The Application class contains also the following method.
+       But it is concluded that the results of executing them
+       easily can be validated either using the visual- or 
+       auditory system, or are simply not used in the main 
+       application but only exist for debugging purpose. 
 
-        - play_audio_files()
+       - show_goodbye_widgets()
+       - show_sound_control()
+       - plot_current_files()
+       - create_graph()
+       - create_graph_placeholder()
+       - create_phase_shift_control()
+       - create_amplitude_control()
+       - create_sound_control_widgets()
+       - create_goodbye_widgets()
+       - create_welcome_widgets()
+       - clear_page()
     """
 
 

@@ -61,8 +61,8 @@ from csvWriter import CSVWriter
 2. Create some test data
 ```python
 data = [{
-  {"original":{"amplitude":1, "phase_shift":0}},
-  {"manipulated":{"amplitude":1, "phase_shift":0}}
+  "original":{"amplitude":1, "phase_shift":0},
+  "manipulated":{"amplitude":1, "phase_shift":0}
 }]
 ```
 

@@ -10,8 +10,8 @@ from csv import DictWriter
 
     2. Create some test data
     data = [{
-        {"original":{"amplitude":1, "phase_shift":0}},
-        {"manipulated":{"amplitude":1, "phase_shift":0}}
+        "original":{"amplitude":1, "phase_shift":0},
+        "manipulated":{"amplitude":1, "phase_shift":0}
     }]
     
     3. Create a CSVWriter object using the data
