@@ -36,19 +36,19 @@ class TestApplication(unittest.TestCase):
     """Used to test the class Application in gui.py"""
 
     def test_set_amplitude(self):
-        """"""
+        """Ensure set_amplitude"""
         self.assertEqual(True, True, "Should be equal")
 
     def test_set_phase_shift(self):
-        """"""
+        """Ensure set_phase_shift"""
         self.assertEqual(True, True, "Should be equal")
 
     def test_toggle_play(self):
-        """"""
+        """Ensure toggle_play"""
         self.assertEqual(True, True, "Should be equal")
 
     def test_next_audio_files(self):
-        """"""
+        """Ensure next_audio_files"""
         self.assertEqual(True, True, "Should be equal")
 
     """

@@ -111,6 +111,14 @@ class SoundModifier:
         """Returns the numbers of sound files"""
         return len(self.__original_sound_files)
 
+    def get_results(self):
+        """Returns the results parameter"""
+        return self.__results
+
+    def get_original_sound_files(self):
+        """Returns the original_sound_files parameter"""
+        return self.__original_sound_files
+
     def set_amplitude(self, amplitude):
         """Changes the amplitude of all
            manipulated sound files"""
@@ -129,18 +137,19 @@ class SoundModifier:
         for s in self.__manipulated_sound_files:
             s.set_phase_shift(phase_shift)
 
-    def toggle_play(self):
+    def toggle_play(self, mute=False):
         """Creates a thread that plays the audio files
            until should_play=false, if should_play
            is already true, should_play will be set
            to false, to stop the playing thread"""
         if self.__should_play:
             self.__should_play = False
-            sounddevice.stop();
+            if not mute: sounddevice.stop()
         else:
             self.__should_play = True
-            thread = threading.Thread(target=self.play_audio_files)
-            thread.start()
+            if not mute:
+                thread = threading.Thread(target=self.play_audio_files)
+                thread.start()
 
     def play_audio_files(self):
         """Play the 'current' sound files until should_play is false,
@@ -158,12 +167,9 @@ class SoundModifier:
             if not self.__should_play:
                 run = False
 
-    def next_audio_files(self):
-        """Saves the current state of the original and manipulated sound file to
-           a list of results, which is saved and reset for every time, the
-           sound index has reach one cycle. Note: the method randomize the
-           phase shift of the original sounds to avoid the original sounds
-           always follows the same phase"""
+    def append_current_result_data(self):
+        """Appends the current state of the 'current' sound files
+           to the results list"""
         self.__results.append({
             ORIGINAL_KEY: {
                 AMPLITUDE_KEY: self.__original_sound_files[self.__current_sound_index].get_amplitude(),
@@ -174,6 +180,28 @@ class SoundModifier:
                 PHASE_SHIFT_KEY: self.__manipulated_sound_files[self.__current_sound_index].get_phase_shift()
             }
         })
+
+    def randomize_original_sound_phase_shift(self):
+        """Set the phase_shift parameter of all the
+           original sound files to a random value
+           from the __phase_shift_range list"""
+        # randomize original sounds' phase shift
+        index = random.randint(0, len(self.__phase_shift_range) - 1)
+        phase_shift = self.__phase_shift_range[index]
+        if phase_shift == self.__original_sound_files[0].get_phase_shift():
+            self.randomize_original_sound_phase_shift()
+        else:
+            for s in self.__original_sound_files:
+                s.set_phase_shift(phase_shift)
+
+    def next_audio_files(self):
+        """Saves the current state of the original and manipulated sound file to
+           a list of results, which is saved and reset for every time, the
+           sound index has reach one cycle. Note: the method randomize the
+           phase shift of the original sounds to avoid the original sounds
+           always follows the same phase"""
+
+        self.append_current_result_data()
 
         if self.__current_sound_index + 1 >= len(self.__original_sound_files):
             writer = CSVWriter(self.__results)
@@ -187,8 +215,5 @@ class SoundModifier:
             if self.__should_play:
                 self.toggle_play()
 
-            # randomize original sounds' phase shift
-            index = random.randint(0, len(self.__phase_shift_range) - 1)
-            phase_shift = self.__phase_shift_range[index]
-            for s in self.__original_sound_files:
-                s.set_phase_shift(phase_shift)
+            self.randomize_original_sound_phase_shift()
+
