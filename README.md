@@ -189,3 +189,27 @@ sound_modifier.next_audio_files()
 if sound_modifier.get_finished_sequence() > 0:
   print("ALL SOUND FILES HAS BEEN HEARD")
 ```
+
+# Test
+The project uses the `unittest` library to implement
+unit tests to test the application. All unit test 
+classes can be found in the `/Tests` directory.
+
+**Procedure to validate all tests:**
+1. Open the terminal
+2. Run `nose2`
+```
+$ python -m nose2
+```
+
+** Example log results:**
+
+```
+(venv) C:\Users\PCName\PycharmProjects\P4-App>python -m nose2
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 0.028s
+
+OK
+
+```
