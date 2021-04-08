@@ -16,7 +16,7 @@ RAW_TIME = np.linspace(0, len(RAW_DATA) / SAMPLE_RATE, num=len(RAW_DATA))
 # Create a sound data object used for the tests
 SOUND_DATA = SoundData(TEST_FILE_NAME)
 # Get the default phase shift, used to comparing
-DEFAULT_PHASE_SHIFT = SOUND_DATA.get_default_phase_shift()
+# DEFAULT_PHASE_SHIFT = SOUND_DATA.get_default_phase_shift()
 
 # Create a version of the raw data with double amplitude
 # and is shifted 1 in the amplitude domain
@@ -24,7 +24,7 @@ RAW_DATA_DOUBLE_AMP_1_SHIFT = 2 * cp.copy(RAW_DATA) + 1
 
 # Create a version of the raw time that is shifted
 # by 2 in the phase shift domain + the default phase shift value
-RAW_TIME_SHIFTED_BY_2 = cp.copy(RAW_TIME) + (DEFAULT_PHASE_SHIFT + 2)
+RAW_TIME_SHIFTED_BY_2 = cp.copy(RAW_TIME) #+ (DEFAULT_PHASE_SHIFT + 2)
 
 
 class TestSoundData(unittest.TestCase):
@@ -48,8 +48,8 @@ class TestSoundData(unittest.TestCase):
         """Ensure set_phase_shift updates the
            phase_shift parameter correctly"""
         SOUND_DATA.set_phase_shift(1)
-        self.assertNotEqual(SOUND_DATA.get_phase_shift(), DEFAULT_PHASE_SHIFT + 2, "Should not be 2")
-        self.assertEqual(SOUND_DATA.get_phase_shift(), DEFAULT_PHASE_SHIFT + 1, "Should be 1")
+        self.assertNotEqual(SOUND_DATA.get_phase_shift(), 2, "Should not be 2")
+        self.assertEqual(SOUND_DATA.get_phase_shift(), 1, "Should be 1")
 
     def test_get_data(self):
         """Ensure get_data returns a modified version

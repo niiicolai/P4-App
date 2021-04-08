@@ -3,14 +3,14 @@ import soundfile as sf
 import numpy as np
 import copy as cp
 from soundData import SoundData
-from soundModifier import SoundModifier
+from config import ORIGINAL_NAMES, MANIPULATED_NAMES
 from gui import Application
 
 
 # TEST DATA
 # The name of test wave file
-ORIGINAL_NAMES = ["./assets/sound/test.wav", "./assets/sound/test.wav"]
-MANIPULATED_NAMES = ["./assets/sound/test.wav", "./assets/sound/test.wav"]
+#ORIGINAL_NAMES = ["./assets/sound/test.wav", "./assets/sound/test.wav"]
+#MANIPULATED_NAMES = ["./assets/sound/test.wav", "./assets/sound/test.wav"]
 
 # Create an application object used for the tests
 APP = Application(ORIGINAL_NAMES, MANIPULATED_NAMES, False)
@@ -23,7 +23,7 @@ RAW_TIME = np.linspace(0, len(RAW_DATA) / SAMPLE_RATE, num=len(RAW_DATA))
 ORIGINAL_SOUND_DATA = SoundData(ORIGINAL_NAMES[0])
 MANIPULATED_SOUND_DATA = SoundData(MANIPULATED_NAMES[0])
 # Get the default phase shift, used to comparing
-DEFAULT_PHASE_SHIFT = ORIGINAL_SOUND_DATA.get_default_phase_shift()
+# DEFAULT_PHASE_SHIFT = ORIGINAL_SOUND_DATA.get_default_phase_shift()
 
 # Create a version of the raw data with double amplitude
 # and is shifted 1 in the amplitude domain
@@ -31,7 +31,7 @@ RAW_DATA_DOUBLE_AMP_0_SHIFT = 2 * cp.copy(RAW_DATA) + 0
 
 # Create a version of the raw time that is shifted
 # by 2 in the phase shift domain + the default phase shift value
-RAW_TIME_SHIFTED_BY_2 = cp.copy(RAW_TIME) + (DEFAULT_PHASE_SHIFT + 2)
+RAW_TIME_SHIFTED_BY_2 = cp.copy(RAW_TIME) #+ (DEFAULT_PHASE_SHIFT + 2)
 
 
 class TestApplication(unittest.TestCase):

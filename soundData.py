@@ -5,7 +5,7 @@ import numpy as np
 import soundfile as sf
 import sounddevice
 import time
-
+import copy as cp
 
 """
     The 7 steps below provide the general usage of this class
@@ -48,8 +48,35 @@ class SoundData:
         self.__amplitude = 1
         self.__amplitude_shift = 0
         self.__phase_shift = 0
-        self.__default_phase_shift = 1.6
         self.__is_playing = False
+        self.__possible_duration = 1.6
+
+    def get_shifted_data_array(self):
+        """Returns the audio audio shifted either left or right
+           using zeros matching the phase shift in a given direction"""
+
+        # Calculate number of shifts
+        shifts = np.zeros(int(self.__sample_rate * abs(self.__phase_shift)))
+
+        # Get possible shifts
+        possible_shifts = np.zeros(int(self.__sample_rate * self.__possible_duration))
+
+        # Copy original data
+        copied_data = cp.copy(self.__data)
+
+        # Calculate missing shifts
+        missing_zeros = int(self.__sample_rate * self.__possible_duration)-len(shifts)
+        opposite_side_zeros = abs(int(self.__possible_duration+missing_zeros))
+        missing_shifts = np.zeros(opposite_side_zeros)
+
+        # Insert shifts before
+        copied_data = np.append(shifts, copied_data)
+        # Insert possible shifts after
+        # + the missing shifts on the left side
+        # to ensure the list always has the same length
+        copied_data = np.append(copied_data, missing_shifts)
+
+        return copied_data
 
     def set_amplitude(self, amplitude):
         """Changes the amplitude of the final data output"""
@@ -70,11 +97,7 @@ class SoundData:
     def get_data(self):
         """Returns the data multiplied with the amplitude parameter
            and shifted by adding the amplitude-shift parameter"""
-        return self.__data * self.__amplitude + self.__amplitude_shift
-
-    def get_default_phase_shift(self):
-        """Returns the default phase shift parameter"""
-        return self.__default_phase_shift
+        return self.get_shifted_data_array() * self.__amplitude #+ self.__amplitude_shift
 
     def get_amplitude_shift(self):
         """Returns the amplitude shift parameter"""
@@ -86,7 +109,7 @@ class SoundData:
 
     def get_phase_shift(self):
         """Returns the phase shift parameter"""
-        return self.__phase_shift + self.__default_phase_shift
+        return self.__phase_shift
 
     def get_sample_rate(self):
         """Returns the audio files sample rate"""
@@ -96,19 +119,14 @@ class SoundData:
         """Returns an array of evenly spaced time points used
            to represent the audio files time sequence on the x-axis"""
         data = self.get_data()
-        return np.linspace(0, len(data) / self.__sample_rate, num=len(data)) + \
-               self.get_phase_shift()
+        return np.linspace(0, len(data) / self.__sample_rate, num=len(data))
 
     def save(self, name):
         """Save the current state of the data to a file"""
         sounddevice.write(name, self.get_data(), self.__sample_rate)
 
     def play(self, channel):
-        """Delays the current play time by the phase shift in the
-           positive direction or up to (__default_phase_shift) in the negative direction,
-           and plays the current state of the data afterwards"""
-        sleep_time = 0 if self.get_phase_shift() < 0 else self.get_phase_shift()
-        time.sleep(sleep_time)
+        """Plays the current state of the audio data"""
         sounddevice.play(self.get_data(), self.__sample_rate, mapping=[channel])
         return sounddevice.wait()
 

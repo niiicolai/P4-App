@@ -232,7 +232,7 @@ class Application(tk.Frame):
                            title_position[1] + slider_top_offset)
 
         # Label values
-        self.phase_shift_labels = [1.6, 1.3, .9, .6, .3, 0, -.3, -.6, -.9, -1.3, -1.6]
+        self.phase_shift_labels = [1.6, 1.3, .9, .6, .3, 0]#, -.3, -.6, -.9, -1.3, -1.6]
 
         # Build slider
         self.phase_shift_slider = tk.Scale(self.master, from_=self.phase_shift_labels[0],
@@ -346,6 +346,7 @@ class Application(tk.Frame):
            save the results and display the
            goodbye page"""
         self.sound_modifier.next_audio_files()
+        self.play_button.config(text="Play", bg=DEFAULT_BTN_BGG, fg=DEFAULT_TXT_COLOR)
         if self.sound_modifier.get_finished_sequence() > 0:
             self.show_goodbye_widgets()
         else:

@@ -2,10 +2,10 @@
 import threading
 import random
 import sounddevice
+import numpy as np
 from soundData import SoundData
 from csvWriter import CSVWriter, ORIGINAL_KEY, \
     MANIPULATED_KEY, AMPLITUDE_KEY, PHASE_SHIFT_KEY
-
 
 """
     The 10 steps below provide the general usage of this class
@@ -73,13 +73,17 @@ class SoundModifier:
         self.__original_sound_files = [SoundData(name) for name in original_names]
         self.__manipulated_sound_files = [SoundData(name) for name in manipulated_names]
         self.__amplitude_range = [1.6, 1.3, .9, .6, .3, 0, -.3, -.6, -.9, -1.3, -1.6]
-        self.__phase_shift_range = [1.6, 1.3, .9, .6, .3, 0, -.3, -.6, -.9, -1.3, -1.6]
+        self.__phase_shift_range = [1.6, 1.3, .9, .6, .3, 0]#, -.3, -.6, -.9, -1.3, -1.6]
         self.__results = []
         self.__should_play = False
         self.__amplitude = 0
         self.__phase_shift = 0
         self.__current_sound_index = 0
         self.__finished_sequence = 0
+
+        # Ensure to randomize the original in the time domain
+        # when initializing the class
+        self.randomize_original_sound_phase_shift()
 
     def get_should_play(self):
         """Returns whether or not the
@@ -159,15 +163,13 @@ class SoundModifier:
         """Play the 'current' sound files until should_play is false,
            where the original sound is output on the left speaker,
            and the manipulated is output on the right speaker"""
+
         run = True
         while run:
-            thread1 = threading.Thread(target=self.__original_sound_files[self.__current_sound_index].play, args=(1, ))
-            thread2 = threading.Thread(target=self.__manipulated_sound_files[self.__current_sound_index].play, args=(2, ))
-            thread1.start()
-            thread2.start()
-            thread1.join()
-            thread2.join()
-
+            data = np.column_stack([self.__original_sound_files[self.__current_sound_index].get_data(),
+                                    self.__manipulated_sound_files[self.__current_sound_index].get_data()])
+            sounddevice.play(data)
+            sounddevice.wait()
             if not self.__should_play:
                 run = False
 
@@ -220,4 +222,3 @@ class SoundModifier:
                 self.toggle_play()
 
             self.randomize_original_sound_phase_shift()
-
