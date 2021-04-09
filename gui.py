@@ -87,19 +87,21 @@ class Application(tk.Frame):
         guidelines_label.place(x=0, y=50)
 
         # create the label
-        guidelines = "Your task is to synchronize two sound using phase shifting.\n\n" \
+        guidelines = "Your task is to synchronise two sounds using the vertical sliders on the screen.\n\n" \
+                     "The purpose of this test is to analyse the ability to synchronise two sounds. \n\n" \
                      "The sound control page has two sliders:\n" \
-                     "1. Changes amplitude\n 2. Shift the phase\n\n" \
-                     "The sound control page also have two buttons:\n" \
+                     "1. Changes loudness\n 2. Change the synchronisation(time shift)\n\n" \
+                     "The sound control page has two buttons:\n" \
                      "1. The 'play' button can be used to listen to the sounds\n" \
                      "2. The 'next' button is used to confirm " \
-                     "that you perceive the \ntwo sounds to have equal phase " \
+                     "that you perceive the \ntwo sounds to be synchronised " \
                      "and you are ready to be\n presented to two new sounds.\n\n" \
-                     "This process will continue until all sounds are evaluated.\n\n" \
+                     "This process will continue until all 10 sounds are judged to be synchronised.\n\n" \
                      "Be careful when you press play the first time, it is recommended\n" \
                      "to set the local volume of your computer to a low value, and slowly\n" \
                      "increase it to a suitable volume level.\n\n" \
-                     "Thank you for your interest!"
+                     "You will listen to 10 sounds that should be synchronised,\n the test should take between 7-12 minutes.\n\n" \
+                     "Thank you for participating!"
         guidelines_label2 = tk.Label(self.master,
                                      text=guidelines,
                                      fg=DEFAULT_TXT_COLOR,
@@ -117,7 +119,7 @@ class Application(tk.Frame):
         """Adds the necessary widgets
            to build the goodbye page"""
         # create the label
-        top_label = tk.Label(self.master, text="Thanks for participating!", fg=DEFAULT_TXT_COLOR,
+        top_label = tk.Label(self.master, text="Thank you, for participating!", fg=DEFAULT_TXT_COLOR,
                              bg=DEFAULT_BGG_COLOR, width="45", height="3",
                              font=HEADER_FONT)
         # position the label
@@ -137,7 +139,7 @@ class Application(tk.Frame):
         """Adds the necessary widgets
            to build the sound control page"""
         # create the top label
-        top_label = tk.Label(self.master, text="Synchronize the sounds", fg=DEFAULT_TXT_COLOR,
+        top_label = tk.Label(self.master, text="Synchronise the sounds", fg=DEFAULT_TXT_COLOR,
                              bg=DEFAULT_BGG_COLOR, width="45", height="3",
                              font=HEADER_FONT)
         # position the top label
@@ -180,7 +182,7 @@ class Application(tk.Frame):
         title_size = (15, 3)
 
         # create the top label
-        top_label = tk.Label(self.master, text="Amplitude Level\n(db)", fg=DEFAULT_TXT_COLOR,
+        top_label = tk.Label(self.master, text="Loudness Level\n(db)", fg=DEFAULT_TXT_COLOR,
                              width=title_size[0], height=title_size[1],
                              font=TITLE_FONT)
 
@@ -216,7 +218,7 @@ class Application(tk.Frame):
         title_size = (15, 3)
 
         # create the top label
-        top_label = tk.Label(self.master, text="Phase Shift\n(s)", fg=DEFAULT_TXT_COLOR,
+        top_label = tk.Label(self.master, text="Time Shift\n(s)", fg=DEFAULT_TXT_COLOR,
                              width=title_size[0], height=title_size[1],
                              font=TITLE_FONT)
         # position the top label
@@ -247,10 +249,10 @@ class Application(tk.Frame):
     # GRAPHING
 
     def create_graph_placeholder(self):
-        text = "Help:\n\n1. Use the sliders to adjust\n amplitude and phase-shift\n\n" \
-               "2. Listen to the sounds simultaneously\n using the play button\n\n" \
-               "3. Press 'Next audio files' to confirm\n the audio is aligned\n\n" \
-               "4. Repeat the process until you think\n all audio files are aligned"
+        text = "Help:\n\n1. Use the sliders to adjust loudness,\n  and the time shift of the sounds.\n\n" \
+               "2. Listen to the sounds simultaneously\n using the play button.\n\n" \
+               "3. Press 'Next audio file' to confirm\n the audio is synchronised.\n\n" \
+               "4. Repeat the process until you think\n all audio files are synchronised."
         label = tk.Label(self.master, text=text, fg=DEFAULT_TXT_COLOR, font=TITLE_FONT)
         label.place(x=240, y=130, width=270, height=250)
 
