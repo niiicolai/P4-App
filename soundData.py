@@ -57,24 +57,61 @@ class SoundData:
 
         # Calculate number of shifts
         shifts = np.zeros(int(self.__sample_rate * abs(self.__phase_shift)))
+        # self.__sample_rate => 44100
+        # abs(self.__phase_shift) => et tal mellem 0 og 1.6
+        # lad os sige at det i dette eksempel er 0.5
+        # self.__sample_rate * abs(self.__phase_shift) = 44100 * 0.5 = 22050 antal nuller
+        # før amplitude dataen
+        # shifts => [0, 0, ..., 0] (22050 nuller)
 
-        # Get possible shifts
-        possible_shifts = np.zeros(int(self.__sample_rate * self.__possible_duration))
+        # For at beregne antal nuller tilgængelige til phase shifting, se nedenstående:
+        # Bemærk dette step ikke bliver brugt, men kan hjælpe med det større billede
+        # possible_shifts = np.zeros(int(self.__sample_rate * self.__possible_duration))
+        # self.__sample_rate => 44100
+        # self.__possible_duration => præcis 1.6 (ikke en range som med phase shift)
+        # self.__sample_rate * self.__possible_duration = 44100 * 1.6 = 70560 antal nuller
+        # Bemærk ovenstående tal betyder vi kan tilføje 70560 antal nuller på venstre side, højre side
+        # eller fordelt skævt eller ligeligt på begge sider
+        # possible_shifts => [0, 0, ..., 0] (70560 nuller)
 
         # Copy original data
         copied_data = cp.copy(self.__data)
+        # Et array som indeholder amplitude data for selve audio filen
+        # Dette array indeholder både nuller, negative og positive tal.
+        # Da værdierne i i dette tilfælde er forskelligt fra lydfil til lydfil
+        # så lader vi som om (for eksemplets skyld) copied_data ser ud på følgende måde:
+        # copied_data => [1, 2, 3, 4]
 
         # Calculate missing shifts
-        missing_zeros = int(self.__sample_rate * self.__possible_duration)-len(shifts)
-        opposite_side_zeros = abs(int(self.__possible_duration+missing_zeros))
-        missing_shifts = np.zeros(opposite_side_zeros)
+        missing_zeros = int(self.__sample_rate * self.__possible_duration) - len(shifts)
+        # self.__sample_rate => 44100
+        # self.__possible_duration => præcis 1.6 (ikke en range som med phase shift)
+        # len(shifts) => længden af shifts variablen, i dette eksempel: 22050 (nuller)
+        # int(self.__sample_rate * self.__possible_duration)-len(shifts) => 70560 - 22050 = 48510
+        # Tallet, 48510, betyder at vi skal tilføje 48510 nuller på højre side
+        # missing_zeros => 48510
+
+        missing_shifts = np.zeros(abs(missing_zeros))
+        # missing_shifts => [0, 0, ..., 0] (48510 nuller)
+
+        # Herfra er der 3 vigtige parameter:
+        # shifts => S[0, 0, ..., 0] (22050 nuller)
+        # copied_data => [1, 2, 3, 4]
+        # missing_shifts=> M[0, 0, ..., 0] (48510 nuller)
+        # Bemærk jeg har indsat et 'S' og et 'M' foran
+        # shifts og missing_shifts variablen så vi kan
+        # se forskel på dem i efterfølgende kommentarer.
 
         # Insert shifts before
         copied_data = np.append(shifts, copied_data)
-        # Insert possible shifts after
-        # + the missing shifts on the left side
-        # to ensure the list always has the same length
+        # copied_data => S[0, 0, ..., 0] + [1, 2, 3, 4]
+
+        # Insert missing shifts after
         copied_data = np.append(copied_data, missing_shifts)
+        # Bemærk nedenstående er 3 eksempler på det samme:
+        # copied_data => S[0, 0, ..., 0] + [1, 2, 3, 4] + M[0, 0, ..., 0]
+        # copied_data => [0, 0, ..., 0 (22050 nuller), 1, 2, 3, 4, 0, 0, ..., 0 (48510 nuller)]
+        # copied_data => [0, 0, ..., 0, 1, 2, 3, 4, 0, 0, ..., 0]
 
         return copied_data
 
