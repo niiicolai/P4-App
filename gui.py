@@ -22,7 +22,6 @@ from soundModifier import SoundModifier
     app.mainloop()
 """
 
-
 # BUTTON COLORS
 DEFAULT_BTN_BGG = "white"
 ACTIVE_BTN_BGG = "red"
@@ -34,11 +33,27 @@ DEFAULT_BGG_COLOR = "white"
 # FONTS
 HEADER_FONT = ("Arial", 15, 'bold')
 TITLE_FONT = ("Arial", 9, 'bold')
+ALTERNATIVE_FONT = ("Arial", 12, 'bold')
 
 # FRAME PROPERTIES
 SIZE = "540x520"
 TITLE = "P4 Project"
 
+# SLIDER
+SLIDER_TITLE_POSITION = (20, 128)
+SLIDER_TITLE_SIZE = (15, 3)
+
+# WIDGETS
+
+C_BUTTON_POSITION = (170, 299)
+C_BUTTON_WIDTH = 27
+C_BUTTON_HEIGHT = 2
+
+D_BUTTON_WIDTH = 20
+D_BUTTON_HEIGHT = 2
+D_BUTTON_POSITION = (370, 434)
+
+PLAY_BUTTON_OFFSET = 50
 
 class Application(tk.Frame):
     """A class used to implement the main GUI features"""
@@ -57,6 +72,7 @@ class Application(tk.Frame):
         self.master.title(TITLE)
         self.create_welcome_widgets()
         self.grid(row=0, column=0)
+        self.callback_activated = False
 
     # TKINTER METHODS
 
@@ -66,27 +82,100 @@ class Application(tk.Frame):
         for w in self.master.winfo_children():
             w.destroy()
 
+    # DEMO METHODS
+
+    def create_demo_step_one(self):
+        self.clear_page()
+
+        self.create_top_background()
+        self.create_top_panel("Step 1")
+        self.create_top_small_panel("Before the actual test, you will have to complete the following demo.\n"
+                                    "Imagine the graph below represents two sounds fx two piano chords.")
+        self.create_graph()
+
+        # Create play button
+        button = tk.Button(self.master, text="OK", fg=DEFAULT_TXT_COLOR,
+                           bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
+                           height=D_BUTTON_HEIGHT, command=self.create_demo_step_two)
+        # Place button
+        button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
+
+    def create_demo_step_two_callback(self):
+        # Create play button
+        button = tk.Button(self.master, text="OK", fg=DEFAULT_TXT_COLOR,
+                           bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
+                           height=D_BUTTON_HEIGHT, command=self.create_demo_step_three)
+        # Place button
+        button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
+
+    def create_demo_step_two(self):
+        self.clear_page()
+
+        self.callback_activated = False
+
+        self.create_top_background()
+        self.create_top_panel("Step 2")
+        self.create_top_small_panel("Use the slider to the left to align the two sounds\n"
+                                    "represented in the graph, until the button shows up.")
+        self.create_graph()
+        self.create_phase_shift_control(title_position=SLIDER_TITLE_POSITION, title_size=SLIDER_TITLE_SIZE,
+                                        command=(lambda e: self.demo_phase_shift()))
+
+    def create_demo_step_three_callback(self):
+        # Create confirm button
+        button = tk.Button(self.master, text="OK", fg=DEFAULT_TXT_COLOR,
+                           bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
+                           height=D_BUTTON_HEIGHT, command=self.create_demo_step_four)
+        # Place button
+        button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
+
+    def create_demo_step_three(self):
+        self.clear_page()
+
+        self.callback_activated = False
+
+        self.create_top_background()
+        self.create_top_panel("Step 3")
+        self.create_top_small_panel("However, for the purpose of the test, you are not meant to see the graph\n"
+                                    "while aligning the sounds. Use the play button to listen to the sounds "
+                                    "repeatedly.\n and align the two sounds, until a button shows up.")
+        self.create_phase_shift_control(title_position=SLIDER_TITLE_POSITION, title_size=SLIDER_TITLE_SIZE,
+                                        command=(lambda e: self.demo_phase_shift("TWO")))
+        self.create_play_button()
+
+    def create_demo_step_four(self):
+        self.clear_page()
+
+        if self.sound_modifier.get_should_play():
+            self.sound_modifier.toggle_play()
+
+        self.create_top_background()
+        self.create_top_panel("Demo completed")
+        self.create_top_small_panel("You can now start the actual test, or retry the demo.")
+
+        position_x = 200
+        position_offset = 90
+
+        button = tk.Button(self.master, text="Start test", fg=DEFAULT_TXT_COLOR,
+                           bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
+                           height=D_BUTTON_HEIGHT, command=self.create_sound_control_widgets)
+        button.place(x=position_x+position_offset, y=C_BUTTON_POSITION[1])
+
+        button = tk.Button(self.master, text="Retry demo", fg=DEFAULT_TXT_COLOR,
+                           bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
+                           height=D_BUTTON_HEIGHT, command=self.create_demo_step_one)
+        button.place(x=position_x-position_offset, y=C_BUTTON_POSITION[1])
+
     # WIDGETS METHODS
 
     def create_welcome_widgets(self):
         """Adds the necessary widgets
            to build the welcome page"""
-        # create the label
-        top_label = tk.Label(self.master, text="Welcome!", fg=DEFAULT_TXT_COLOR,
-                             bg=DEFAULT_BGG_COLOR, width="45", height="3",
-                             font=HEADER_FONT)
-        # position the label
-        top_label.place(x=0, y=0)
 
-        # create the label
-        guidelines_label = tk.Label(self.master,
-                                    text="Please read the guidelines below",
-                                    fg=DEFAULT_TXT_COLOR, bg=DEFAULT_BGG_COLOR,
-                                    width="78", height="3", font=TITLE_FONT)
-        # position the label
-        guidelines_label.place(x=0, y=50)
+        self.create_top_background()
+        self.create_top_panel("Welcome")
+        self.create_top_small_panel("Please read the guidelines below")
 
-        # create the label
         guidelines = "Your task is to synchronise two sounds using the vertical sliders on the screen.\n\n" \
                      "The purpose of this test is to analyse the ability to synchronise two sounds. \n\n" \
                      "The sound control page has two sliders:\n" \
@@ -100,78 +189,82 @@ class Application(tk.Frame):
                      "Be careful when you press play the first time, it is recommended\n" \
                      "to set the local volume of your computer to a low value, and slowly\n" \
                      "increase it to a suitable volume level.\n\n" \
-                     "You will listen to 10 sounds that should be synchronised,\n the test should take between 7-12 minutes.\n\n" \
+                     "You will listen to 10 sounds that should be synchronised,\n " \
+                     "the test should take between 7-12 minutes.\n\n" \
                      "Thank you for participating!"
         guidelines_label2 = tk.Label(self.master,
                                      text=guidelines,
                                      fg=DEFAULT_TXT_COLOR,
                                      width="78", height="20", font=TITLE_FONT)
         # position the label
-        guidelines_label2.place(x=0, y=120)
-
-        # Create button
-        start_button = tk.Button(self.master, text="OK, I understand!", fg=DEFAULT_TXT_COLOR,
-                                 bg=DEFAULT_BGG_COLOR, width=37, height=2, command=self.show_sound_control)
-        # Place button
-        start_button.place(x=135, y=439)
+        guidelines_label2.place(x=0, y=140)
+        start_button_offset_y = 160
+        start_button = tk.Button(self.master, text="OK, I understand", fg=DEFAULT_TXT_COLOR,
+                                 bg=DEFAULT_BGG_COLOR, width=C_BUTTON_WIDTH, height=C_BUTTON_HEIGHT, command=self.create_demo_step_one)
+        start_button.place(x=C_BUTTON_POSITION[0], y=C_BUTTON_POSITION[1]+start_button_offset_y)
 
     def create_goodbye_widgets(self):
         """Adds the necessary widgets
            to build the goodbye page"""
-        # create the label
-        top_label = tk.Label(self.master, text="Thank you, for participating!", fg=DEFAULT_TXT_COLOR,
-                             bg=DEFAULT_BGG_COLOR, width="45", height="3",
-                             font=HEADER_FONT)
-        # position the label
-        top_label.place(x=0, y=0)
+        self.clear_page()
 
-        # create the label
-        guidelines = "You can safely close the page now\n" \
-                     "by pressing the x, up in the right corner."
-        guidelines_label2 = tk.Label(self.master,
-                                     text=guidelines,
-                                     fg=DEFAULT_TXT_COLOR,
-                                     width="78", height="20", font=TITLE_FONT)
-        # position the label
-        guidelines_label2.place(x=0, y=120)
+        self.create_top_background()
+        self.create_top_panel("Thank you, for participating")
+        self.create_top_small_panel("You can safely close the page now\n"
+                                    "by pressing the x, up in the right corner.")
 
     def create_sound_control_widgets(self):
         """Adds the necessary widgets
            to build the sound control page"""
+        self.clear_page()
+
+        self.create_top_background()
+        self.create_top_panel()
+        text = f"Sound {self.sound_modifier.get_current_sound_index() + 1} out " \
+               f"of {self.sound_modifier.get_number_of_sounds()}"
+        self.create_top_small_panel(text)
+        self.create_phase_shift_control()
+        self.create_play_button()
+
+        # Create confirm button
+        button = tk.Button(self.master, text="Next Audio Files", fg=DEFAULT_TXT_COLOR,
+                           bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH, height=D_BUTTON_HEIGHT, command=self.next_audio_files)
+        button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
+
+    # SINGLE WIDGETS METHODS
+
+    def create_top_background(self):
         # create the top label
-        top_label = tk.Label(self.master, text="Synchronise the sounds", fg=DEFAULT_TXT_COLOR,
-                             bg=DEFAULT_BGG_COLOR, width="45", height="3",
+        top_label = tk.Label(self.master, text="", fg=DEFAULT_TXT_COLOR,
+                             bg=DEFAULT_BGG_COLOR, width="45", height="5",
                              font=HEADER_FONT)
         # position the top label
         top_label.place(x=0, y=0)
 
+    def create_top_small_panel(self, text=""):
         # create the top label
         self.counter_label = tk.Label(self.master,
-                                      text=f"Sound {self.sound_modifier.get_current_sound_index() + 1} out " +
-                                           f"of {self.sound_modifier.get_number_of_sounds()}",
+                                      text=text,
                                       fg=DEFAULT_TXT_COLOR, bg=DEFAULT_BGG_COLOR,
                                       width="78", height="3", font=TITLE_FONT)
         # position the top label
-        self.counter_label.place(x=0, y=50)
+        self.counter_label.place(x=0, y=55)
 
-        # Create controls
-        self.create_amplitude_control()
-        self.create_phase_shift_control()
+    def create_top_panel(self, text="Synchronise the sounds"):
+        # create the top label
+        top_label = tk.Label(self.master, text=text, fg=DEFAULT_TXT_COLOR,
+                             bg=DEFAULT_BGG_COLOR, width="45", height="2",
+                             font=HEADER_FONT)
+        # position the top label
+        top_label.place(x=0, y=0)
 
+    def create_play_button(self, text="Play"):
         # Create play button
-        self.play_button = tk.Button(self.master, text="Play", fg=DEFAULT_TXT_COLOR,
-                                     bg=DEFAULT_BGG_COLOR, width=37, height=2, command=self.toggle_play)
+        self.play_button = tk.Button(self.master, text=text, fg=DEFAULT_TXT_COLOR,
+                                     bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
+                                     height=D_BUTTON_HEIGHT, command=self.toggle_play)
         # Place button
-        self.play_button.place(x=240, y=399)
-
-        # Create confirm button
-        button = tk.Button(self.master, text="Next Audio Files", fg=DEFAULT_TXT_COLOR,
-                           bg=DEFAULT_BGG_COLOR, width=37, height=2, command=self.next_audio_files)
-        # Place button
-        button.place(x=240, y=445)
-
-        # Plot graph
-        self.create_graph()
+        self.play_button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1]-PLAY_BUTTON_OFFSET)
 
     # SOUND CONTROL SLIDERS
 
@@ -211,38 +304,40 @@ class Application(tk.Frame):
         self.amplitude_slider.set(1)
         self.amplitude_slider.place(x=slider_position[0], y=slider_position[1])
 
-    def create_phase_shift_control(self):
+    def create_phase_shift_control(self, title_position=SLIDER_TITLE_POSITION,
+                                   title_size=SLIDER_TITLE_SIZE, command=None):
         """Adds the necessary widgets to
            build a slider to control phase shift"""
-        title_position = (120, 110)
-        title_size = (15, 3)
 
         # create the top label
-        top_label = tk.Label(self.master, text="Time Shift\n(s)", fg=DEFAULT_TXT_COLOR,
+        top_label = tk.Label(self.master, text="Time Shift (s)", fg=DEFAULT_TXT_COLOR,
                              width=title_size[0], height=title_size[1],
                              font=TITLE_FONT)
         # position the top label
         top_label.place(x=title_position[0], y=title_position[1])
 
         # slider offsets
-        slider_top_offset = 50
+        slider_top_offset = 35
         slider_left_offset = 16
 
         # calculate slider start position and size
-        slider_length = 330
+        slider_length = 280
         slider_position = (title_position[0] + slider_left_offset,
                            title_position[1] + slider_top_offset)
 
         # Label values
-        self.phase_shift_labels = [1.6, 1.3, .9, .6, .3, 0]#, -.3, -.6, -.9, -1.3, -1.6]
+        self.phase_shift_labels = [0, .3, .6, .9, 1.3, 1.6]  # , -.3, -.6, -.9, -1.3, -1.6]
 
         # Build slider
         self.phase_shift_slider = tk.Scale(self.master, from_=self.phase_shift_labels[0],
                                            to=self.phase_shift_labels[len(self.phase_shift_labels) - 1],
                                            tickinterval=self.phase_shift_labels[len(self.phase_shift_labels) - 1],
-                                           resolution=.01, length=slider_length)
-        self.phase_shift_slider["command"] = (lambda phase_shift=self.phase_shift_slider.get():
-                                              self.set_phase_shift(phase_shift))
+                                           resolution=.01, length=slider_length, orient="horizontal")
+
+        if command is None:
+            command = (lambda phase_shift=self.phase_shift_slider.get():
+                       self.set_phase_shift(phase_shift))
+        self.phase_shift_slider["command"] = command
         self.phase_shift_slider.set(0)
         self.phase_shift_slider.place(x=slider_position[0], y=slider_position[1])
 
@@ -263,7 +358,7 @@ class Application(tk.Frame):
             self.create_graph_placeholder()
             return
 
-        f = Figure(figsize=(5, 5), dpi=40)
+        f = Figure(figsize=(5, 5), dpi=50)
         self.ax = f.add_subplot(111)
         self.ax.set_ylabel('Amplitude [db]')
         self.ax.set_xlabel('Time [seconds]')
@@ -278,12 +373,12 @@ class Application(tk.Frame):
         self.ax.plot(x2, y2)
 
         self.canvas = FigureCanvasTkAgg(f, self.master)
-        self.canvas.get_tk_widget().place(x=240, y=130, width=270, height=250)
+        self.canvas.get_tk_widget().place(x=30, y=225, width=320, height=250)
 
     def plot_current_files(self):
         """Updates the current state of the graph to match
            the current original and manipulated sounds"""
-        if not self.graph_audio: return
+        # if not self.graph_audio: return
 
         # call the clear method on your axes
         self.ax.clear()
@@ -302,20 +397,6 @@ class Application(tk.Frame):
 
         # call the draw method on your canvas
         self.canvas.draw()
-
-    # SHOW SUB PAGE METHODS
-
-    def show_sound_control(self):
-        """Remove all widgets and build the
-           sound control page"""
-        self.clear_page()
-        self.create_sound_control_widgets()
-
-    def show_goodbye_widgets(self):
-        """Remove all widgets and build the
-           goodbye page"""
-        self.clear_page()
-        self.create_goodbye_widgets()
 
     # SOUND MODIFIER METHODS
 
@@ -350,8 +431,26 @@ class Application(tk.Frame):
         self.sound_modifier.next_audio_files()
         self.play_button.config(text="Play", bg=DEFAULT_BTN_BGG, fg=DEFAULT_TXT_COLOR)
         if self.sound_modifier.get_finished_sequence() > 0:
-            self.show_goodbye_widgets()
+            self.create_goodbye_widgets()
         else:
             self.plot_current_files()
             self.counter_label.config(text=f"Sound {self.sound_modifier.get_current_sound_index() + 1} out "
                                            f"of {self.sound_modifier.get_number_of_sounds()}")
+
+    # SOUND MODIFIER DEMO METHODS
+
+    def demo_phase_shift(self, next="ONE"):
+        if self.callback_activated: return
+
+        offset = .2
+        self.set_phase_shift(self.phase_shift_slider.get())
+
+        is_within_greater = (self.sound_modifier.current_original_sound().get_phase_shift()-offset <=
+                      self.sound_modifier.current_manipulated_sound().get_phase_shift())
+        is_within_less = (self.sound_modifier.current_original_sound().get_phase_shift()+offset >=
+                      self.sound_modifier.current_manipulated_sound().get_phase_shift())
+
+        if is_within_greater and is_within_less:
+            self.callback_activated = True
+            if next == "ONE": self.create_demo_step_two_callback()
+            elif next == "TWO": self.create_demo_step_three_callback()
