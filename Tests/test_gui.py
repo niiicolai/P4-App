@@ -37,18 +37,6 @@ RAW_TIME_SHIFTED_BY_2 = cp.copy(RAW_TIME) #+ (DEFAULT_PHASE_SHIFT + 2)
 class TestApplication(unittest.TestCase):
     """Used to test the class Application in gui.py"""
 
-    def test_set_amplitude(self):
-        """Ensure set_amplitude"""
-        APP.set_amplitude(2)
-        manipulated_sound_files = APP.sound_modifier.get_manipulated_sound_files()
-        self.assertEqual((manipulated_sound_files[0].get_data() == RAW_DATA_DOUBLE_AMP_0_SHIFT).all(), True, "Should be True")
-
-    def test_set_phase_shift(self):
-        """Ensure set_phase_shift"""
-        APP.set_phase_shift(2)
-        manipulated_sound_files = APP.sound_modifier.get_manipulated_sound_files()
-        self.assertEqual((manipulated_sound_files[0].get_time() == RAW_TIME_SHIFTED_BY_2).all(), True, "Should be True")
-
     """
        OTHER METHODS:
        The Application class contains also the following method.

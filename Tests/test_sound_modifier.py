@@ -59,24 +59,6 @@ class TestSoundModifier(unittest.TestCase):
            output the correct number of sounds"""
         self.assertEqual(SOUND_MODIFIER.get_number_of_sounds(), 5, "Should be equal")
 
-    def test_current_original_sound(self):
-        """Ensure current_original_sound
-           returns the n original sound"""
-        m = (SOUND_MODIFIER.current_original_sound().get_data() == ORIGINAL_SOUND_DATA.get_data()).all()
-        self.assertEqual(m, True, "Should be True")
-
-    def test_current_manipulated_sound(self):
-        """Ensure current_manipulated_sound
-           returns the n manipulated sound"""
-        m = (SOUND_MODIFIER.current_manipulated_sound().get_data() == MANIPULATED_SOUND_DATA.get_data()).all()
-        self.assertEqual(m, True, "Should be True")
-
-    def test_next_audio_files(self):
-        """Ensure next_audio_files updates
-           the current sound index"""
-        SOUND_MODIFIER.next_audio_files()
-        self.assertEqual(SOUND_MODIFIER.get_current_sound_index(), 1, "Should be equal")
-
     def test_get_finished_sequence(self):
         """Ensure get_finished_sequence
            increase after listening to all
@@ -84,28 +66,6 @@ class TestSoundModifier(unittest.TestCase):
         for n in ORIGINAL_NAMES:
             SOUND_MODIFIER.next_audio_files()
         self.assertEqual(SOUND_MODIFIER.get_finished_sequence(), 1, "Should be equal")
-
-    def test_set_amplitude(self):
-        """Ensure set_amplitude only changes
-           the amplitude of the 'manipulated'
-           version of the current sound"""
-        original_sound_data_copy = cp.copy(SOUND_MODIFIER.current_original_sound())
-        SOUND_MODIFIER.set_amplitude(2)
-        om = (SOUND_MODIFIER.current_original_sound().get_data() == original_sound_data_copy.get_data()).all()
-        mm = (SOUND_MODIFIER.current_manipulated_sound().get_data() == RAW_DATA_DOUBLE_AMP_0_SHIFT).all()
-        self.assertEqual(om, True, "Should be True")
-        self.assertEqual(mm, True, "Should be True")
-
-    def test_set_phase_shift(self):
-        """Ensure set_phase_shift only changes
-           the amplitude of the 'manipulated'
-           version of the current sound"""
-        original_sound_data_copy = cp.copy(SOUND_MODIFIER.current_original_sound())
-        SOUND_MODIFIER.set_phase_shift(2)
-        om = (SOUND_MODIFIER.current_original_sound().get_time() == original_sound_data_copy.get_time())
-        mm = (SOUND_MODIFIER.current_manipulated_sound().get_time() == RAW_TIME_SHIFTED_BY_2)
-        self.assertEqual(om.all(), True, "Should be True")
-        self.assertEqual(mm, True, "Should be True")
 
     def test_append_current_result_data(self):
         """Ensure append_current_result_data

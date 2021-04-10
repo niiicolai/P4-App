@@ -44,31 +44,10 @@ class TestSoundData(unittest.TestCase):
         SOUND_DATA.set_amplitude_shift(initial_value + .1)
         self.assertEqual(SOUND_DATA.get_amplitude_shift(), initial_value + .1, "Should be initial value + .1")
 
-    def test_set_phase_shift(self):
-        """Ensure set_phase_shift updates the
-           phase_shift parameter correctly"""
-        SOUND_DATA.set_phase_shift(1)
-        self.assertNotEqual(SOUND_DATA.get_phase_shift(), 2, "Should not be 2")
-        self.assertEqual(SOUND_DATA.get_phase_shift(), 1, "Should be 1")
-
-    def test_get_data(self):
-        """Ensure get_data returns a modified version
-           of the sound data using the amplitude and
-           amplitude_shift parameters"""
-        SOUND_DATA.set_amplitude_shift(1)
-        SOUND_DATA.set_amplitude(2)
-        self.assertEqual((SOUND_DATA.get_data() == RAW_DATA_DOUBLE_AMP_1_SHIFT).all(), True, "Should be True")
-
     def test_get_sample_rate(self):
         """Ensure get_sample_rate returns the correct
            sample rate parameter"""
         self.assertEqual(SOUND_DATA.get_sample_rate(), SAMPLE_RATE, "Should be equal")
-
-    def test_get_time(self):
-        """Ensure get_time returns a modified version
-           of time data using the phase shift parameter"""
-        SOUND_DATA.set_phase_shift(2)
-        self.assertEqual((SOUND_DATA.get_time() == RAW_TIME_SHIFTED_BY_2).all(), True, "Should be True")
 
     """
         OTHER METHODS:
