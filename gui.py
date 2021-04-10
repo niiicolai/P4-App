@@ -55,6 +55,7 @@ D_BUTTON_POSITION = (370, 434)
 
 PLAY_BUTTON_OFFSET = 50
 
+
 class Application(tk.Frame):
     """A class used to implement the main GUI features"""
 
@@ -85,6 +86,8 @@ class Application(tk.Frame):
     # DEMO METHODS
 
     def create_demo_step_one(self):
+        """Creates a page representing the first step of the
+           interactive demo"""
         self.clear_page()
 
         self.create_top_background()
@@ -101,6 +104,7 @@ class Application(tk.Frame):
         button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
 
     def create_demo_step_two_callback(self):
+        """Add widgets to the current page when step two's task is completed"""
         # Create play button
         button = tk.Button(self.master, text="OK", fg=DEFAULT_TXT_COLOR,
                            bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
@@ -109,6 +113,8 @@ class Application(tk.Frame):
         button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
 
     def create_demo_step_two(self):
+        """Creates a page representing the second step of the
+           interactive demo"""
         self.clear_page()
 
         self.callback_activated = False
@@ -122,6 +128,7 @@ class Application(tk.Frame):
                                         command=(lambda e: self.demo_phase_shift()))
 
     def create_demo_step_three_callback(self):
+        """Add widgets to the current page when step three's task is completed"""
         # Create confirm button
         button = tk.Button(self.master, text="OK", fg=DEFAULT_TXT_COLOR,
                            bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
@@ -130,6 +137,8 @@ class Application(tk.Frame):
         button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
 
     def create_demo_step_three(self):
+        """Creates a page representing the third step of the
+           interactive demo"""
         self.clear_page()
 
         self.callback_activated = False
@@ -144,6 +153,8 @@ class Application(tk.Frame):
         self.create_play_button()
 
     def create_demo_step_four(self):
+        """Creates a page representing the fourth step of the
+           interactive demo"""
         self.clear_page()
 
         if self.sound_modifier.get_should_play():
@@ -234,6 +245,8 @@ class Application(tk.Frame):
     # SINGLE WIDGETS METHODS
 
     def create_top_background(self):
+        """Creates a label with no text and a white background
+           for the top panel"""
         # create the top label
         top_label = tk.Label(self.master, text="", fg=DEFAULT_TXT_COLOR,
                              bg=DEFAULT_BGG_COLOR, width="45", height="5",
@@ -242,6 +255,8 @@ class Application(tk.Frame):
         top_label.place(x=0, y=0)
 
     def create_top_small_panel(self, text=""):
+        """Creates a label meant to be placed on top of the top background
+           where there can be inserted a small information piece of text"""
         # create the top label
         self.counter_label = tk.Label(self.master,
                                       text=text,
@@ -251,6 +266,8 @@ class Application(tk.Frame):
         self.counter_label.place(x=0, y=55)
 
     def create_top_panel(self, text="Synchronise the sounds"):
+        """Creates a label meant to be placed on top of the top background
+           where there can be inserted a short title"""
         # create the top label
         top_label = tk.Label(self.master, text=text, fg=DEFAULT_TXT_COLOR,
                              bg=DEFAULT_BGG_COLOR, width="45", height="2",
@@ -259,6 +276,7 @@ class Application(tk.Frame):
         top_label.place(x=0, y=0)
 
     def create_play_button(self, text="Play"):
+        """Creates a play button that triggers the toggle play button when pressed"""
         # Create play button
         self.play_button = tk.Button(self.master, text=text, fg=DEFAULT_TXT_COLOR,
                                      bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH,
@@ -354,9 +372,6 @@ class Application(tk.Frame):
     def create_graph(self):
         """Adds the necessary widgets to show a graph
            of the current original and manipulated sounds"""
-        if not self.graph_audio:
-            self.create_graph_placeholder()
-            return
 
         f = Figure(figsize=(5, 5), dpi=50)
         self.ax = f.add_subplot(111)
@@ -440,6 +455,8 @@ class Application(tk.Frame):
     # SOUND MODIFIER DEMO METHODS
 
     def demo_phase_shift(self, next="ONE"):
+        """Execute a callback related to the interactive demo when
+           the two current audio files has the same phase shift"""
         if self.callback_activated: return
 
         offset = .2
