@@ -36,11 +36,11 @@ TITLE_FONT = ("Arial", 9, 'bold')
 ALTERNATIVE_FONT = ("Arial", 12, 'bold')
 
 # FRAME PROPERTIES
-SIZE = "540x520"
+SIZE = "540x555"
 TITLE = "P4 Project"
 
 # SLIDER
-SLIDER_TITLE_POSITION = (20, 128)
+SLIDER_TITLE_POSITION = (20, 180)
 SLIDER_TITLE_SIZE = (15, 3)
 
 # WIDGETS
@@ -51,7 +51,7 @@ C_BUTTON_HEIGHT = 2
 
 D_BUTTON_WIDTH = 20
 D_BUTTON_HEIGHT = 2
-D_BUTTON_POSITION = (370, 434)
+D_BUTTON_POSITION = (370, 495)
 
 PLAY_BUTTON_OFFSET = 50
 
@@ -122,7 +122,9 @@ class Application(tk.Frame):
         self.create_top_background()
         self.create_top_panel("Step 2")
         self.create_top_small_panel("Use the slider to the left to align the two sounds\n"
-                                    "represented in the graph, until the button shows up.")
+                                    "represented in the graph, until the button shows up.\n\n"
+                                    "Click on the right or left side of the slider to\n"
+                                    " move the slider to align the sounds.")
         self.create_graph()
         self.create_phase_shift_control(title_position=SLIDER_TITLE_POSITION, title_size=SLIDER_TITLE_SIZE,
                                         command=(lambda e: self.demo_phase_shift()))
@@ -147,7 +149,9 @@ class Application(tk.Frame):
         self.create_top_panel("Step 3")
         self.create_top_small_panel("However, for the purpose of the test, you are not meant to see the graph\n"
                                     "while aligning the sounds. Use the play button to listen to the sounds "
-                                    "repeatedly.\n and align the two sounds, until a button shows up.")
+                                    "repeatedly.\n and align the two sounds, until the 'OK' button shows up.\n"
+                                    "In the real test, the 'OK' button is visible at all times. When you press\n"
+                                    " 'OK' it is not possible to go back and change the slider again.")
         self.create_phase_shift_control(title_position=SLIDER_TITLE_POSITION, title_size=SLIDER_TITLE_SIZE,
                                         command=(lambda e: self.demo_phase_shift("TWO")))
         self.create_play_button()
@@ -185,31 +189,32 @@ class Application(tk.Frame):
 
         self.create_top_background()
         self.create_top_panel("Welcome")
-        self.create_top_small_panel("Please read the guidelines below")
+        self.create_top_small_panel("Please read the guidelines below\n\n")
 
         guidelines = "Your task is to synchronise two sounds using the vertical sliders on the screen.\n\n" \
+                     "Before the test you have to complete a demo test that should learn you to perform the test.\n\n" \
                      "The purpose of this test is to analyse the ability to synchronise two sounds. \n\n" \
-                     "The sound control page has two sliders:\n" \
-                     "1. Changes loudness\n 2. Change the synchronisation(time shift)\n\n" \
+                     "The sound control test has one slider:\n" \
+                     "Change the synchronisation(time shift)\n\n" \
                      "The sound control page has two buttons:\n" \
                      "1. The 'play' button can be used to listen to the sounds\n" \
                      "2. The 'next' button is used to confirm " \
                      "that you perceive the \ntwo sounds to be synchronised " \
                      "and you are ready to be\n presented to two new sounds.\n\n" \
-                     "This process will continue until all 10 sounds are judged to be synchronised.\n\n" \
+                     "This process will continue until all 5 sounds are judged to be synchronised.\n\n" \
                      "Be careful when you press play the first time, it is recommended\n" \
                      "to set the local volume of your computer to a low value, and slowly\n" \
                      "increase it to a suitable volume level.\n\n" \
-                     "You will listen to 10 sounds that should be synchronised,\n " \
-                     "the test should take between 7-12 minutes.\n\n" \
+                     "You will listen to 5 sounds that should be synchronised,\n " \
+                     "the test should take at least 5 minutes but you should take the time you need.\n\n" \
                      "Thank you for participating!"
         guidelines_label2 = tk.Label(self.master,
                                      text=guidelines,
                                      fg=DEFAULT_TXT_COLOR,
-                                     width="78", height="20", font=TITLE_FONT)
+                                     width="78", height="22", font=TITLE_FONT)
         # position the label
-        guidelines_label2.place(x=0, y=140)
-        start_button_offset_y = 160
+        guidelines_label2.place(x=0, y=120)
+        start_button_offset_y = 180
         start_button = tk.Button(self.master, text="OK, I understand", fg=DEFAULT_TXT_COLOR,
                                  bg=DEFAULT_BGG_COLOR, width=C_BUTTON_WIDTH, height=C_BUTTON_HEIGHT, command=self.create_demo_step_one)
         start_button.place(x=C_BUTTON_POSITION[0], y=C_BUTTON_POSITION[1]+start_button_offset_y)
@@ -238,7 +243,7 @@ class Application(tk.Frame):
         self.create_play_button()
 
         # Create confirm button
-        button = tk.Button(self.master, text="Next Audio Files", fg=DEFAULT_TXT_COLOR,
+        button = tk.Button(self.master, text="OK", fg=DEFAULT_TXT_COLOR,
                            bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH, height=D_BUTTON_HEIGHT, command=self.next_audio_files)
         button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
 
@@ -249,7 +254,7 @@ class Application(tk.Frame):
            for the top panel"""
         # create the top label
         top_label = tk.Label(self.master, text="", fg=DEFAULT_TXT_COLOR,
-                             bg=DEFAULT_BGG_COLOR, width="45", height="5",
+                             bg=DEFAULT_BGG_COLOR, width="45", height="7",
                              font=HEADER_FONT)
         # position the top label
         top_label.place(x=0, y=0)
@@ -261,7 +266,7 @@ class Application(tk.Frame):
         self.counter_label = tk.Label(self.master,
                                       text=text,
                                       fg=DEFAULT_TXT_COLOR, bg=DEFAULT_BGG_COLOR,
-                                      width="78", height="3", font=TITLE_FONT)
+                                      width="78", height="5", font=TITLE_FONT)
         # position the top label
         self.counter_label.place(x=0, y=55)
 
@@ -388,7 +393,7 @@ class Application(tk.Frame):
         self.ax.plot(x2, y2)
 
         self.canvas = FigureCanvasTkAgg(f, self.master)
-        self.canvas.get_tk_widget().place(x=30, y=225, width=320, height=250)
+        self.canvas.get_tk_widget().place(x=30, y=280, width=320, height=250)
 
     def plot_current_files(self):
         """Updates the current state of the graph to match
