@@ -36,7 +36,7 @@ TITLE_FONT = ("Arial", 9, 'bold')
 ALTERNATIVE_FONT = ("Arial", 12, 'bold')
 
 # FRAME PROPERTIES
-SIZE = "540x520"
+SIZE = "540x540"
 TITLE = "P4 Project"
 
 # SLIDER
@@ -122,7 +122,9 @@ class Application(tk.Frame):
         self.create_top_background()
         self.create_top_panel("Step 2")
         self.create_top_small_panel("Use the slider to the left to align the two sounds\n"
-                                    "represented in the graph, until the button shows up.")
+                                    "represented in the graph, until the button shows up."
+                                    "Click on the right or left side of the slider to\n"
+                                    " move the slider 1/10 of a second.")
         self.create_graph()
         self.create_phase_shift_control(title_position=SLIDER_TITLE_POSITION, title_size=SLIDER_TITLE_SIZE,
                                         command=(lambda e: self.demo_phase_shift()))
@@ -147,7 +149,9 @@ class Application(tk.Frame):
         self.create_top_panel("Step 3")
         self.create_top_small_panel("However, for the purpose of the test, you are not meant to see the graph\n"
                                     "while aligning the sounds. Use the play button to listen to the sounds "
-                                    "repeatedly.\n and align the two sounds, until a button shows up.")
+                                    "repeatedly.\n and align the two sounds, until a button shows up.\n"
+                                    "In the real test, the 'next audio file' button is visible at all times.\n"
+                                    "This is to not give a signal to when the sounds are synchronised.")
         self.create_phase_shift_control(title_position=SLIDER_TITLE_POSITION, title_size=SLIDER_TITLE_SIZE,
                                         command=(lambda e: self.demo_phase_shift("TWO")))
         self.create_play_button()
@@ -188,9 +192,10 @@ class Application(tk.Frame):
         self.create_top_small_panel("Please read the guidelines below")
 
         guidelines = "Your task is to synchronise two sounds using the vertical sliders on the screen.\n\n" \
+                     "Before the test you have to complete a demo test that should learn you to perform the test.\n\n" \
                      "The purpose of this test is to analyse the ability to synchronise two sounds. \n\n" \
-                     "The sound control page has two sliders:\n" \
-                     "1. Changes loudness\n 2. Change the synchronisation(time shift)\n\n" \
+                     "The sound control test has one slider:\n" \
+                     "Change the synchronisation(time shift)\n\n" \
                      "The sound control page has two buttons:\n" \
                      "1. The 'play' button can be used to listen to the sounds\n" \
                      "2. The 'next' button is used to confirm " \
@@ -238,7 +243,7 @@ class Application(tk.Frame):
         self.create_play_button()
 
         # Create confirm button
-        button = tk.Button(self.master, text="Next Audio Files", fg=DEFAULT_TXT_COLOR,
+        button = tk.Button(self.master, text="Next Audio File", fg=DEFAULT_TXT_COLOR,
                            bg=DEFAULT_BGG_COLOR, width=D_BUTTON_WIDTH, height=D_BUTTON_HEIGHT, command=self.next_audio_files)
         button.place(x=D_BUTTON_POSITION[0], y=D_BUTTON_POSITION[1])
 
